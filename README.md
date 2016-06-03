@@ -15,3 +15,9 @@ Fork this repository for your final project. For week 3, you will be adding your
 **I strongly recommend you keep your project simple**. There is a lot to do here, and any complexity will blow up the amount of time and effort required to complete it. Remember to build the simplest thing possible to achieve the task your application is meant to accomplish and avoid feature creep. You can always iterate on what you've built *after* you've completed the minimum viable product.
 
 *include your proposal in this README after this line:*
+Andrew Reid final project will consist of a game where players try to match guesses with the server. Player must give name in order to play, then places their guessed colors in 4 boxes.
+
+Upon hitting Play button, server will generate 4 colors and display them as borders in the 4 boxes. Matches will result in a scored value. A total score will be computed by the server and displayed through view methods.
+
+A mockup of the game can be seen at:
+https://github.com/wildalmondz/Final_Project.git
