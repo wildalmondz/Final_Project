@@ -32,7 +32,7 @@ router.route('/')
 .get(function (req, res) {
     var serverColors = gameMatch.getColors();
     // console.log(serverColors);
-    res.json(serverColors);
+    res.send(serverColors);
     // res.json({ colors: array });
     // trying to get rid of Can't set headers error
 });

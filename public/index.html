@@ -79,11 +79,8 @@
 	
 	<script type="text/javascript">
      $(init);
-     var saveKey;
-     console.log("At the top");
      var play;
      var colorElements = [0, 0, 0, 0];
-     var gameUID = 0;
 
      function init() {
          document.getElementsByClassName('colors')[0].style.visibility = 'hidden';
@@ -100,86 +97,146 @@
      });
      var player = new Player({
          name: '',
-         0: '',
-         1: '',
-         2: '',
-         3: '',
          highScore: '',
          displayName: ''
      });
-     var Game = Backbone.Model.extend({
+
+     var ColorGame = Backbone.Model.extend({
          initialize: function () {
-             console.log("Game is initialized.");
+             console.log("ColorGame Model initialized.");
              // this comes after the objects
          },
-         defaults: {
-
+         asString: function () {
+             return JSON.stringify(this.toJSON());
          }
 
      });
-     var serverPicks = new Backbone.Model({
-         data: [
-          { text: "Color 1" },
-          { text: "Color 2" },
-          { text: "Color 3" },
-          { text: "Color 4" },
-         ]
+     var Games = Backbone.Collection.extend({
+         initialize: function () {
+             console.log("Play collection is initialized");
+         },
+         model: ColorGame,
+         url: '/shuffle'
+     });
+     // DashBoard view
+     var View = Backbone.View.extend({
+         initialize: function () {
+             console.log("Score View is initialized");
+             this.template = $('#list-template').children();
+             this.render();
+         },
+         el: '#container',
+         render: function () {
+             console.log("In render" + this.model);
+             this.listenTo(this.model, 'change', function () {
+                 console.log("Change detected");
+                 var highScore = "High Score: " + this.model.at(1).attributes[10];
+                 console.log("High Score " + highScore);
+                 // var li = this.template.clone().find('highScore').text(data[i].text).end();
+                 this.$el.find('ul').append(highScore);
+                 //$('body').append(this.render().el);
+             });
+         }
+     });
+     var Box0View = Backbone.View.extend({
+         initialize: function () {
+             console.log("Box 0 View is initialized");
+             this.render();
+         },
+         el: '#box_0',
+         render: function () {
+             this.listenTo(this.model, 'change', function () {
+             console.log("BoxView Change detected");
+             console.log("This model " + this.model.at(1).attributes[0])
+		     var newColor = this.model.at(1).attributes[0];
+		     newValue = '3px solid ' + newColor;
+
+		     this.$el.css('border', newValue);
+		     // var li = this.template.clone().find('highScore').text(data[i].text).end();
+                 // this.$el.css('border', '3px solid orange');
+                 //$('body').append(this.render().el);
+ 		     return this;
+           });
+         }
+     });
+         var Box1View = Backbone.View.extend({
+         initialize: function () {
+             console.log("Box 1 View is initialized");
+             this.render();
+         },
+         el: '#box_1',
+         render: function () {
+             this.listenTo(this.model, 'change', function () {
+             console.log("BoxView Change detected");
+             console.log("This model " + this.model.at(1).attributes[1])
+		     var newColor = this.model.at(1).attributes[1];
+		     newValue = '3px solid ' + newColor;
+
+		     this.$el.css('border', newValue);
+ 		     return this;
+           });
+         }
+     });
+              var Box2View = Backbone.View.extend({
+         initialize: function () {
+             console.log("Box 2 View is initialized");
+             this.render();
+         },
+         el: '#box_2',
+         render: function () {
+             this.listenTo(this.model, 'change', function () {
+             console.log("BoxView Change detected");
+             console.log("This model " + this.model.at(1).attributes[2])
+		     var newColor = this.model.at(1).attributes[2];
+		     newValue = '3px solid ' + newColor;
+
+		     this.$el.css('border', newValue);
+		     // var li = this.template.clone().find('highScore').text(data[i].text).end();
+                 // this.$el.css('border', '3px solid orange');
+                 //$('body').append(this.render().el);
+ 		     return this;
+           });
+         }
+     });
+       var Box3View = Backbone.View.extend({
+         initialize: function () {
+             console.log("Box 3 View is initialized");
+             this.render();
+         },
+         el: '#box_3',
+         render: function () {
+             this.listenTo(this.model, 'change', function () {
+             console.log("BoxView Change detected");
+             console.log("This model " + this.model.at(1).attributes[3])
+		     var newColor = this.model.at(1).attributes[3];
+		     newValue = '3px solid ' + newColor;
+
+		     this.$el.css('border', newValue);
+ 		     return this;
+           });
+         }
      });
 	</script>
+<script>
+    function setGameData() {
+        
+    }
+
+</script>
 
 <script>
     function submitColors() {
-        // collection here?
+        play = new Games({});
 
-        gameUID = gameUID++;
-        console.log("gameUID: [" + gameUID + "]");
+        var view = new View({ model: play });
+        var boxView = new Box0View({ model: play });
+        var boxView = new Box1View({ model: play });
+        var boxView = new Box2View({ model: play });
+        var boxView = new Box3View({ model: play });
 
-        var Games = Backbone.Collection.extend({
-            initialize: function () {
-                console.log("Play collection is initialized");
-            },
-            model: Game,
-            gameUID: gameUID,
-            url: '/shuffle'
-        });
-
-        play = new Games({ });
-
-        // create saves to the server and adds to the collection
-
-        // game.create({ title: 'Wool', author: 'Hugh Howey', genre: 'Science Fiction' });
-        play.create(player.attributes);
-        // console.log(play.getByCid('c3'));
-        console.log(play.models);
-        viewData = play.at(1).attributes;
-        setView(viewData);
+        var curGame = play.create(player.attributes);
+        console.log(curGame);
     }
 </script> 
-<script>
-    function setView(viewData) {
-        // console.log("In setview: " + viewData);
-        console.log(play.at(1).attributes[0])
-        var View = Backbone.View.extend({
-            initialize: function () {
-                this.template = $('#list-template').children();
-                el: '#container',
-               this.render();
-            },
-
-            render: function () {
-                
-                console.log("In render" + viewData);
-
-                for (var i = 0, l = viewData.length; i < l; i++) {
-                    console.log(viewData[i].href);
-                    var li = this.template.clone().find('a').attr.text(viewData[i].text).end();
-                    this.$el.find('ul').append(li);
-                }
-            }
-        });
-
-        var view = new View({ model: Game });
-    }
-</script>
 </body>
 </html>
