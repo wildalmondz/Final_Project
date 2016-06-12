@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Color Match Game</title>
+    <style type="text/css">
+      .redText {
+        text-shadow: 1px 1px 0px #000000;
+        color: #f00;
+      }
+      .greenText {
+        text-shadow: 1px 1px 0px #000000;
+        color: #008000;
+      }
+      .blueText {
+        text-shadow: 1px 1px 0px #000000;
+        color: #0000FF;
+      }
+      .orangeText {
+        text-shadow: 1px 1px 0px #000000;
+        color: #FFA500;
+      }
+      #container  { padding:20px; border:2px solid #333; width:350px;}
+      #list-template { display:none; }
+      #box_0 { float: left; text-align: center; width: 60px; height: 60px; 
+               padding: 15px; margin: 2px; border: 3px solid #000; }
+      #box_1 { float: left; text-align: center; width: 60px; height: 60px; 
+               padding: 15px; margin: 2px; border: 3px solid #000; }
+      #box_2 { float: left; text-align: center; width: 60px; height: 60px; 
+               padding: 15px; margin: 2px; border: 3px solid #000; }
+      #box_3 { float: left; text-align: center; width: 60px; height: 60px; 
+               padding: 15px; margin: 2px; border: 3px solid #000; }
+     </style>
+  </head>
+<body>
+
+<h1>Color Drop</h1>
+<br>
+<div id="container">
+  <form name="playerform"><label for="key">Player Name: </label><br />
+  <input id="key" name="key" type="text"/><br />
+  <input id="save" type="button" value="Pick Colors!"/>
+  <ul id='list'></ul>
+</div>
+<br><br>
+<div id="box_0">
+  <section class="startColor" id="0">Color 1</section>
+</div>
+<div id="box_1">
+  <section class="startColor" id="1">Color 2</section>
+</div>
+<div id="box_2">
+  <section class="startColor" id="2">Color 3</section>
+</div>
+<div id="box_3">
+  <section class="startColor" id="3">Color 4</section>
+</div>
+<br><br><br><br><br>
+<div class="colors">  
+  <p draggable="true" id="Red" class="redText">Red</p>
+  <p draggable="true" id="Blue" class="blueText">Blue</p>
+  <p draggable="true" id="Green" class="greenText">Green</p>
+  <p draggable="true" id="Orange" class="orangeText">Orange</p>
+</div>
+
+<div id="list-template">
+<li><a href=""></a></li>
+</div>
+<br><br>
+<div>    
+<input id="playColors" type="button" value="Play!" disabled/>
+</div>
+     <!-- these script src values presume hosting the files locally -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.12.0/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js"></script>
+    <script src="client.js"></script>
+    <script src="main.js"></script>
+	
+	<script type="text/javascript">
+     $(init);
+     var saveKey;
+     console.log("At the top");
+     var play;
+     var colorElements = [0, 0, 0, 0];
+     var gameUID = 0;
+
+     function init() {
+         document.getElementsByClassName('colors')[0].style.visibility = 'hidden';
+         var saveButton = document.getElementById('save');
+         saveButton.addEventListener('click', saveItem);
+     }
+     var Player = Backbone.Model.extend({
+         initialize: function () {
+             console.log('Player created');
+         },
+         asString: function () {
+             return JSON.stringify(this.toJSON());
+         }
+     });
+     var player = new Player({
+         name: '',
+         0: '',
+         1: '',
+         2: '',
+         3: '',
+         highScore: '',
+         displayName: ''
+     });
+     var Game = Backbone.Model.extend({
+         initialize: function () {
+             console.log("Game is initialized.");
+             // this comes after the objects
+         },
+         defaults: {
+
+         }
+
+     });
+     var serverPicks = new Backbone.Model({
+         data: [
+          { text: "Color 1" },
+          { text: "Color 2" },
+          { text: "Color 3" },
+          { text: "Color 4" },
+         ]
+     });
+	</script>
+
+<script>
+    function submitColors() {
+        // collection here?
+
+        gameUID = gameUID++;
+        console.log("gameUID: [" + gameUID + "]");
+
+        var Games = Backbone.Collection.extend({
+            initialize: function () {
+                console.log("Play collection is initialized");
+            },
+            model: Game,
+            gameUID: gameUID,
+            url: '/shuffle'
+        });
+
+        play = new Games({ });
+
+        // create saves to the server and adds to the collection
+
+        // game.create({ title: 'Wool', author: 'Hugh Howey', genre: 'Science Fiction' });
+        play.create(player.attributes);
+        // console.log(play.getByCid('c3'));
+        console.log(play.models);
+        viewData = play.at(1).attributes;
+        setView(viewData);
+    }
+</script> 
+<script>
+    function setView(viewData) {
+        // console.log("In setview: " + viewData);
+        console.log(play.at(1).attributes[0])
+        var View = Backbone.View.extend({
+            initialize: function () {
+                this.template = $('#list-template').children();
+                el: '#container',
+               this.render();
+            },
+
+            render: function () {
+                
+                console.log("In render" + viewData);
+
+                for (var i = 0, l = viewData.length; i < l; i++) {
+                    console.log(viewData[i].href);
+                    var li = this.template.clone().find('a').attr.text(viewData[i].text).end();
+                    this.$el.find('ul').append(li);
+                }
+            }
+        });
+
+        var view = new View({ model: Game });
+    }
+</script>
+</body>
+</html>
