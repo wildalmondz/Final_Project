@@ -1,7 +1,7 @@
 'use strict';
 
 var express = require('express');
-var gameMatch = require ('../node_modules/colorGen/color');
+var gameMatch = require ('../colorGen/color');
 
 var app = express();
 var router = express.Router();
