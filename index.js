@@ -15,12 +15,14 @@ var app = express();
 
 // var colorRand = require('./node_modules/colorGen/getColor');
 var colorRand = require('./routes/gameRoutes');
+// var scoreGen = require('./routes/scoreGen');
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false, }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/shuffle', colorRand);
+// app.use('/score', scoreGen);
 
 /* eslint-disable no-console */
 app.listen(3000, function () {
