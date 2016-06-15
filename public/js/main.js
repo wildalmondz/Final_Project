@@ -27,4 +27,5 @@ function submitColors() {
   var box3View = new Box3View({ model: play });
   var curGame = play.create(player.attributes);
   console.log(curGame);
+  document.getElementById('playColors').disabled = true;
 }
