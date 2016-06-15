@@ -16,6 +16,8 @@ function saveItem() {
 function playColors() {
   var curPlayer = player.get('name');
   /* Event fired on the drag target. */
+  var clear0View = new Box0View({ close: '', });
+
   document.addEventListener('dragstart', function (event) {
     event.dataTransfer.setData('Text', event.target.id);
   });
@@ -32,8 +34,8 @@ function playColors() {
     /* colorElements.push(data); */
     colorElements[event.target.id] = data;
     if ((event.target.id === '') || (event.target.id === 'Blue') ||
-	   (event.target.id === 'Red') || (event.target.id === 'Green') ||
-	   (event.target.id === 'Orange')) {
+       (event.target.id === 'Red') || (event.target.id === 'Green') ||
+       (event.target.id === 'Orange')) {
       var index = colorElements.indexOf(data);
       colorElements[index] = 0;
       console.log('Moved out of box' + data);
@@ -52,6 +54,7 @@ function playColors() {
       }
       else if (allColors === 1) {
         document.getElementById('playColors').disabled = false;
+        /* eslint-disable max-len */
         document.getElementById('playColors').addEventListener('click', submitColors);
       }
     }
