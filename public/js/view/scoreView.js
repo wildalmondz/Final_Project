@@ -23,4 +23,9 @@ var View = Backbone.View.extend({
       //$('body').append(this.render().el);
     });
   },
+  close: function(){
+    this.remove();
+    this.unbind();
+    this.model.unbind("change", this.modelChanged);
+  }
 });
