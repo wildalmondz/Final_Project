@@ -28,4 +28,5 @@ function submitColors() {
   var curGame = play.create(player.attributes);
   console.log(curGame);
   document.getElementById('playColors').disabled = true;
+  document.getElementById('resetColors').disabled = false;
 }
