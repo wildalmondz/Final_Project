@@ -5,31 +5,23 @@
 
 /* eslint-disable no-console */
 
-
-
 var Box0View = Backbone.View.extend({
-    initialize: function () {
-        console.log('Box 0 View is initialized');
-        this.render();
-    },
-    el: '#box_0',
-    render: function () {
-        this.listenTo(this.model, 'change', function () {
-            console.log('BoxView Change detected');
-            console.log('This model ' + this.model.at(1).attributes[0]);
-            var newColor = this.model.at(1).attributes[0];
-            var newValue = '3px solid ' + newColor;
-            this.$el.css('border', newValue);
+  initialize: function () {
+    console.log('Box 0 View is initialized');
+    this.render();
+  },
+  el: '#box_0',
+  render: function () {
+    this.listenTo(this.model, 'change', function () {
+      console.log('BoxView Change detected');
+      console.log('This model ' + this.model.at(1).attributes[0]);
+      var newColor = this.model.at(1).attributes[0];
+      var newValue = '3px solid ' + newColor;
+      this.$el.css('border', newValue);
 
-            return this;
-        });
-    },
-    close: function () {
-        console.log('Closing 0');
-        this.remove();
-        this.unbind();
-        this.model.unbind("change", this.modelChanged);
-    }
+      return this;
+    });
+  },
 });
 var Box1View = Backbone.View.extend({
   initialize: function () {
@@ -41,18 +33,13 @@ var Box1View = Backbone.View.extend({
     this.listenTo(this.model, 'change', function () {
       console.log('BoxView Change detected');
       console.log('This model ' + this.model.at(1).attributes[1]);
-	  var newColor = this.model.at(1).attributes[1];
-	  var newValue = '3px solid ' + newColor;
-	  this.$el.css('border', newValue);
-		     
-	  return this;
+      var newColor = this.model.at(1).attributes[1];
+      var newValue = '3px solid ' + newColor;
+      this.$el.css('border', newValue);
+
+      return this;
     });
   },
-  close: function(){
-    this.remove();
-    this.unbind();
-    this.model.unbind("change", this.modelChanged);
-  }
 });
 var Box2View = Backbone.View.extend({
   initialize: function () {
@@ -71,11 +58,6 @@ var Box2View = Backbone.View.extend({
       return this;
     });
   },
-  close: function(){
-    this.remove();
-    this.unbind();
-    this.model.unbind("change", this.modelChanged);
-  }
 });
 var Box3View = Backbone.View.extend({
   initialize: function () {
@@ -91,13 +73,7 @@ var Box3View = Backbone.View.extend({
 	  var newValue = '3px solid ' + newColor;
       this.$el.css('border', newValue);
 
-
       return this;
     });
   },
-  close: function(){
-    this.remove();
-    this.unbind();
-    this.model.unbind("change", this.modelChanged);
-  }
 });
