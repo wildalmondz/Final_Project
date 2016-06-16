@@ -22,11 +22,6 @@ var totalView = Backbone.View.extend({
       this.$el.find('ul').append(totalScore);
       Backbone.history.navigate('done',  {trigger: true});
     });
-  },
-  close: function(){
-    this.remove();
-    this.unbind();
-    this.model.unbind("change", this.modelChanged);
   }
 });
 
