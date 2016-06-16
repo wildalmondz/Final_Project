@@ -7,7 +7,7 @@
 /* eslint-disable comma-dangle */
 
 $(init);
-// var play;
+
 var colorElements = [0, 0, 0, 0];
 
 function init() {
