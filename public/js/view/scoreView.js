@@ -12,20 +12,25 @@ var View = Backbone.View.extend({
     this.render();
   },
   el: '#container',
+  _children: [],
+  events: {
+    'click .remove': 'remove',
+  },
   render: function () {
     console.log('In render' + this.model);
     this.listenTo(this.model, 'change', function () {
       console.log('Change detected');
       var highScore = 'Score: ' + this.model.at(1).attributes[4];
       // var highScore = player.get('highScore');
-      console.log('High Score ' + highScore);
+      this._children.push(highScore);
       this.$el.find('ul').append(highScore);
-      //$('body').append(this.render().el);
+            //$('body').append(this.render().el);
     });
   },
-  close: function(){
-    this.remove();
-    this.unbind();
-    this.model.unbind("change", this.modelChanged);
-  }
+  remove: function () {
+    this.children.forEach(function (view) {
+      view.remove();
+    });
+    Backbone.View.prototype.remove.call(this);
+  },
 });
