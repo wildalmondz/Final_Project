@@ -5,16 +5,6 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable no-console */
 
-(function(){
-  window.App = {
-    Router: {},
-    data: {},
-    initialize: function() {
-      this.data = new App();
-    }
-  };
-})();
-
 var App = (function () {
   return Backbone.Router.extend({
     routes: {
