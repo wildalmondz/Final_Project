@@ -1,29 +1,34 @@
 'use strict';
 
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-console */
+
 (function(){
   window.App = {
-  	Router: {},
+    Router: {},
     data: {},
     initialize: function() {
-      this.data = new App.Router();
+      this.data = new App();
     }
   };
 })();
 
-App.Router = Backbone.Router.extend({
-	routes: {
-		'': 'index',
-    'done': 'done'
-	},
+var App = (function () {
+  return Backbone.Router.extend({
+    routes: {
+      '': 'index',
+      'done': 'done'
+    },
+    index: function(){
+      alert('Enter your name and click Pick Colors');
+    },
+    done: function(){
+      alert('Game Over. Thanks for playing.');
+    },
+  });
+})();
 
-	index: function(){
-		alert("Enter your name and click Pick Colors");
-	},
-	done: function(){
-		alert("Game Over. Thanks for playing.");
-	},
-
-});
-
-new App.Router();
+new App();
 Backbone.history.start();
